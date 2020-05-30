@@ -16,19 +16,41 @@ mixin _$TmdbStore on _TmdbStore, Store {
       (_$genresCountComputed ??= Computed<int>(() => super.genresCount,
               name: '_TmdbStore.genresCount'))
           .value;
+  Computed<int> _$moviesCountComputed;
+
+  @override
+  int get moviesCount =>
+      (_$moviesCountComputed ??= Computed<int>(() => super.moviesCount,
+              name: '_TmdbStore.moviesCount'))
+          .value;
 
   final _$genresAtom = Atom(name: '_TmdbStore.genres');
 
   @override
-  ObservableList<String> get genres {
+  ObservableList<Genre> get genres {
     _$genresAtom.reportRead();
     return super.genres;
   }
 
   @override
-  set genres(ObservableList<String> value) {
+  set genres(ObservableList<Genre> value) {
     _$genresAtom.reportWrite(value, super.genres, () {
       super.genres = value;
+    });
+  }
+
+  final _$moviesAtom = Atom(name: '_TmdbStore.movies');
+
+  @override
+  ObservableList<dynamic> get movies {
+    _$moviesAtom.reportRead();
+    return super.movies;
+  }
+
+  @override
+  set movies(ObservableList<dynamic> value) {
+    _$moviesAtom.reportWrite(value, super.movies, () {
+      super.movies = value;
     });
   }
 
@@ -39,11 +61,22 @@ mixin _$TmdbStore on _TmdbStore, Store {
     return _$getGenresAsyncAction.run(() => super.getGenres());
   }
 
+  final _$getMoviesByGenreAsyncAction =
+      AsyncAction('_TmdbStore.getMoviesByGenre');
+
+  @override
+  Future<dynamic> getMoviesByGenre(int genreId) {
+    return _$getMoviesByGenreAsyncAction
+        .run(() => super.getMoviesByGenre(genreId));
+  }
+
   @override
   String toString() {
     return '''
 genres: ${genres},
-genresCount: ${genresCount}
+movies: ${movies},
+genresCount: ${genresCount},
+moviesCount: ${moviesCount}
     ''';
   }
 }

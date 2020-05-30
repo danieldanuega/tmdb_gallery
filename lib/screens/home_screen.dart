@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:tmdb_gallery/constant.dart';
 import 'package:tmdb_gallery/models/tmdb_store.dart';
+import 'package:tmdb_gallery/screens/list_movie_screen.dart';
 import 'package:tmdb_gallery/widgets/oval_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -37,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFF032541),
+        backgroundColor: kColorAppBar,
         title: Text(
           "TMDB Gallery",
           style: GoogleFonts.montserrat(
@@ -50,15 +52,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Observer(
               builder: (_) => _tmdbStore.genresCount == 0
                   ? Center(
-                      child: Text("TMDB"),
+                      child: Text("NO DATA"),
                     )
                   : ListView.separated(
                       padding: EdgeInsets.all(40.0),
                       itemCount: _tmdbStore.genresCount,
                       itemBuilder: (context, index) {
                         return OvalContainer(
-                          onPressed: () {},
-                          text: _tmdbStore.genres[index],
+                          onPressed: () async {
+                            _tmdbStore.movies.clear();
+                            await _tmdbStore
+                                .getMoviesByGenre(_tmdbStore.genres[index].id);
+                            Navigator.of(context).pushNamed(ListMovie.id);
+                          },
+                          text: _tmdbStore.genres[index].name,
                         );
                       },
                       separatorBuilder: (context, index) {

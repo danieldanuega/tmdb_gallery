@@ -9,6 +9,13 @@ part of 'tmdb_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$TmdbStore on _TmdbStore, Store {
+  Computed<int> _$reviewsCountComputed;
+
+  @override
+  int get reviewsCount =>
+      (_$reviewsCountComputed ??= Computed<int>(() => super.reviewsCount,
+              name: '_TmdbStore.reviewsCount'))
+          .value;
   Computed<int> _$genresCountComputed;
 
   @override
@@ -42,15 +49,45 @@ mixin _$TmdbStore on _TmdbStore, Store {
   final _$moviesAtom = Atom(name: '_TmdbStore.movies');
 
   @override
-  ObservableList<dynamic> get movies {
+  ObservableList<Movies> get movies {
     _$moviesAtom.reportRead();
     return super.movies;
   }
 
   @override
-  set movies(ObservableList<dynamic> value) {
+  set movies(ObservableList<Movies> value) {
     _$moviesAtom.reportWrite(value, super.movies, () {
       super.movies = value;
+    });
+  }
+
+  final _$detailMovieAtom = Atom(name: '_TmdbStore.detailMovie');
+
+  @override
+  DetailMovie get detailMovie {
+    _$detailMovieAtom.reportRead();
+    return super.detailMovie;
+  }
+
+  @override
+  set detailMovie(DetailMovie value) {
+    _$detailMovieAtom.reportWrite(value, super.detailMovie, () {
+      super.detailMovie = value;
+    });
+  }
+
+  final _$reviewsAtom = Atom(name: '_TmdbStore.reviews');
+
+  @override
+  ObservableList<Review> get reviews {
+    _$reviewsAtom.reportRead();
+    return super.reviews;
+  }
+
+  @override
+  set reviews(ObservableList<Review> value) {
+    _$reviewsAtom.reportWrite(value, super.reviews, () {
+      super.reviews = value;
     });
   }
 
@@ -65,9 +102,9 @@ mixin _$TmdbStore on _TmdbStore, Store {
       AsyncAction('_TmdbStore.getMoviesByGenre');
 
   @override
-  Future<dynamic> getMoviesByGenre(int genreId) {
+  Future<dynamic> getMoviesByGenre(int genreId, int page) {
     return _$getMoviesByGenreAsyncAction
-        .run(() => super.getMoviesByGenre(genreId));
+        .run(() => super.getMoviesByGenre(genreId, page));
   }
 
   @override
@@ -75,6 +112,9 @@ mixin _$TmdbStore on _TmdbStore, Store {
     return '''
 genres: ${genres},
 movies: ${movies},
+detailMovie: ${detailMovie},
+reviews: ${reviews},
+reviewsCount: ${reviewsCount},
 genresCount: ${genresCount},
 moviesCount: ${moviesCount}
     ''';

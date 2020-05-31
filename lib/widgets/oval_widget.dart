@@ -9,7 +9,8 @@ class OvalContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return RaisedButton(
+      elevation: 8.0,
       onPressed: onPressed,
       padding: EdgeInsets.symmetric(vertical: 50.0, horizontal: 30.0),
       shape: RoundedRectangleBorder(
@@ -23,8 +24,8 @@ class OvalContainer extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           text,
-          style: GoogleFonts.montserrat(
-            fontSize: 39.0,
+          style: GoogleFonts.poppins(
+            fontSize: 35.0,
             color: Colors.white,
             fontWeight: FontWeight.w500,
           ),

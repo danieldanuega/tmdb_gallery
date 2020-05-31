@@ -15,24 +15,24 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final Shader linearGradient =
+  final Shader _linearGradient =
       LinearGradient(colors: [Colors.green, Colors.lightBlue])
           .createShader(Rect.fromLTWH(0.0, 0.0, 300.0, 70.0));
   TmdbStore _tmdbStore;
-  bool isLoaded = false;
+  bool _isLoaded = false;
 
-  void loadGenres() async {
+  void _loadGenres() async {
     _tmdbStore ??= Provider.of<TmdbStore>(context, listen: false);
     await _tmdbStore.getGenres();
     setState(() {
-      isLoaded = true;
+      _isLoaded = true;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    loadGenres();
+    _loadGenres();
   }
 
   @override
@@ -43,12 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(
           "TMDB Gallery",
           style: GoogleFonts.montserrat(
-              foreground: Paint()..shader = linearGradient,
+              foreground: Paint()..shader = _linearGradient,
               fontWeight: FontWeight.bold,
               fontSize: 28.0),
         ),
       ),
-      body: isLoaded
+      body: _isLoaded
           ? Observer(
               builder: (_) => _tmdbStore.genresCount == 0
                   ? Center(
@@ -59,17 +59,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: _tmdbStore.genresCount,
                       itemBuilder: (context, index) {
                         return OvalContainer(
+                          text: _tmdbStore.genres[index].name,
                           onPressed: () async {
                             _tmdbStore.movies.clear();
-                            await _tmdbStore
-                                .getMoviesByGenre(_tmdbStore.genres[index].id);
-                            Navigator.of(context).pushNamed(ListMovie.id);
+                            await _tmdbStore.getMoviesByGenre(
+                                _tmdbStore.genres[index].id, 1);
+                            Navigator.of(context).pushNamed(
+                              ListMovie.id,
+                              arguments: ListMovie(
+                                title: _tmdbStore.genres[index].name,
+                              ),
+                            );
                           },
-                          text: _tmdbStore.genres[index].name,
                         );
                       },
                       separatorBuilder: (context, index) {
-                        return SizedBox(height: 20.0);
+                        return SizedBox(height: 30.0);
                       },
                     ),
             )

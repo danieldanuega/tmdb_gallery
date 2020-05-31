@@ -1,7 +1,7 @@
 class Movies {
   final int id;
   final String title;
-  final String overview;
+  final String posterPath;
 
-  Movies({this.id, this.title, this.overview});
+  Movies({this.id, this.title, this.posterPath});
 }

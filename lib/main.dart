@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tmdb_gallery/models/tmdb_store.dart';
+import 'package:tmdb_gallery/screens/detail_movie_screen.dart';
 import 'package:tmdb_gallery/screens/home_screen.dart';
 import 'package:tmdb_gallery/screens/list_movie_screen.dart';
 
@@ -18,6 +19,7 @@ class TMDB extends StatelessWidget {
         routes: {
           HomeScreen.id: (context) => HomeScreen(),
           ListMovie.id: (context) => ListMovie(),
+          DetailMovieScreen.id: (context) => DetailMovieScreen(),
         },
       ),
     );

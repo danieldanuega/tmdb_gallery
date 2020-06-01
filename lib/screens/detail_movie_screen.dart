@@ -27,13 +27,12 @@ class _DetailMovieScreenState extends State<DetailMovieScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final DetailMovieScreen args = ModalRoute.of(context).settings.arguments;
     final DetailMovie _detailMovie = _tmdbStore.detailMovie;
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            TitleText(title: args.movieTitle),
+            TitleText(title: widget.movieTitle),
             Flexible(
               child: Container(
                 padding: EdgeInsets.all(30.0),

@@ -8,7 +8,6 @@ import 'package:tmdb_gallery/widgets/review_tile_widget.dart';
 import 'package:tmdb_gallery/widgets/title_text_widget.dart';
 
 class DetailMovieScreen extends StatefulWidget {
-  static final String id = "detail_movie_screen";
   final String movieTitle;
 
   DetailMovieScreen({Key key, this.movieTitle});

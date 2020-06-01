@@ -9,7 +9,6 @@ import 'package:tmdb_gallery/widgets/oval_widget.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class HomeScreen extends StatefulWidget {
-  static final String id = "home_screen";
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -60,16 +59,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         return OvalContainer(
                           text: _tmdbStore.genres[index].name,
-                          onPressed: () async {
+                          onPressed: () {
                             _tmdbStore.movies.clear();
-                            await _tmdbStore.getMoviesByGenre(
-                                _tmdbStore.genres[index].id, 1);
-                            Navigator.of(context).pushNamed(
-                              ListMovie.id,
-                              arguments: ListMovie(
-                                title: _tmdbStore.genres[index].name,
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => ListMovie(
+                                genreName: _tmdbStore.genres[index].name,
+                                genreId: _tmdbStore.genres[index].id,
                               ),
-                            );
+                            ));
                           },
                         );
                       },

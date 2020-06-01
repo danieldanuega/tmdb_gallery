@@ -15,12 +15,7 @@ class TMDB extends StatelessWidget {
     return Provider<TmdbStore>(
       create: (context) => TmdbStore(),
       child: MaterialApp(
-        initialRoute: HomeScreen.id,
-        routes: {
-          HomeScreen.id: (context) => HomeScreen(),
-          ListMovie.id: (context) => ListMovie(),
-          DetailMovieScreen.id: (context) => DetailMovieScreen(),
-        },
+        home: HomeScreen(),
       ),
     );
   }
